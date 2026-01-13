@@ -3,21 +3,21 @@ lucide.createIcons();
 const titleInput = document.getElementById('note-title');
 const noteArea = document.getElementById('note-area');
 
-// Carregar nota salva ao abrir o app
-window.onload = () => {
+// Carregar nota salva ao abrir
+window.addEventListener('DOMContentLoaded', () => {
     const salva = localStorage.getItem('nota-atual');
     if (salva) {
         const dados = JSON.parse(salva);
         titleInput.value = dados.titulo || '';
         noteArea.value = dados.nota || '';
     }
-};
+});
 
-// Salvar no Navegador (Auto-save no clique do botão Salvar)
+// Salvar no Navegador
 document.getElementById('save-app-btn').onclick = () => {
     const dados = { titulo: titleInput.value, nota: noteArea.value };
     localStorage.setItem('nota-atual', JSON.stringify(dados));
-    alert('Nota salva na memória do app!');
+    alert('Nota salva na memória do navegador!');
 };
 
 // Baixar TXT

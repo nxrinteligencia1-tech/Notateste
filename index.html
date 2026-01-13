@@ -3,30 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minhas Notas</title>
+    <title>Notas Pro</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-
     <div class="app-container">
         <header class="header">
             <h1>Notas</h1>
             <div class="actions">
-                <button id="save-btn" class="btn-save">
-                    <i data-lucide="save"></i>
-                    <span>Salvar</span>
-                </button>
-                <button id="clear-btn" class="btn-clear">
-                    <i data-lucide="trash-2"></i>
-                    <span>Limpar</span>
-                </button>
+                <button id="copy-btn" class="btn-copy"><i data-lucide="copy"></i> <span>Copiar</span></button>
+                <button id="save-app-btn" class="btn-save"><i data-lucide="save"></i> <span>Salvar</span></button>
+                <button id="download-btn" class="btn-download"><i data-lucide="file-down"></i> <span>TXT</span></button>
+                <button id="clear-btn" class="btn-clear"><i data-lucide="trash-2"></i></button>
             </div>
         </header>
 
-        <textarea id="note-area" placeholder="Digite suas anotações aqui..."></textarea>
+        <div class="editor-container">
+            <input type="text" id="note-title" placeholder="Título da nota...">
+            <textarea id="note-area" placeholder="Digite suas anotações aqui..."></textarea>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
