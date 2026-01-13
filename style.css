@@ -4,66 +4,46 @@
     --border: #374151;
     --text: #ffffff;
     --blue: #2563eb;
+    --green: #059669;
+    --purple: #7c3aed;
     --red: #dc2626;
 }
 
 * { box-sizing: border-box; }
+body, html { margin: 0; padding: 0; height: 100%; background: var(--bg-dark); color: var(--text); font-family: sans-serif; }
 
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background-color: var(--bg-dark);
-    color: var(--text);
-    font-family: sans-serif;
-}
-
-.app-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
+.app-container { display: flex; flex-direction: column; height: 100vh; }
 
 .header {
     background: var(--bg-header);
     border-bottom: 1px solid var(--border);
-    padding: 0.75rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 1rem;
 }
 
-.header h1 { font-size: 1.125rem; margin: 0; }
-
-.actions { display: flex; gap: 0.5rem; }
+.header h1 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+.actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
 button {
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: bold;
+    border: none; border-radius: 0.5rem; padding: 0.5rem 0.75rem;
+    color: white; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; font-weight: bold; font-size: 0.8rem;
 }
 
-.btn-save { background-color: var(--blue); }
-.btn-save:hover { background-color: #1d4ed8; }
+.btn-copy { background: var(--green); }
+.btn-save { background: var(--blue); }
+.btn-download { background: var(--purple); }
+.btn-clear { background: var(--red); }
 
-.btn-clear { background-color: var(--red); }
-.btn-clear:hover { background-color: #b91c1c; }
+.editor-container { flex: 1; display: flex; flex-direction: column; }
+
+#note-title {
+    width: 100%; padding: 0.75rem 1rem; background: var(--bg-header);
+    color: white; border: none; border-bottom: 1px solid var(--border);
+    font-size: 1.25rem; font-weight: bold; outline: none;
+}
 
 #note-area {
-    flex: 1;
-    width: 100%;
-    padding: 1.5rem;
-    background: transparent;
-    color: white;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    font-family: monospace;
-    resize: none;
+    flex: 1; width: 100%; padding: 1rem; background: transparent;
+    color: white; border: none; outline: none; font-size: 1rem;
+    font-family: monospace; resize: none;
 }
+

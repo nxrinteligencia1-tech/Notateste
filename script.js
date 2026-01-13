@@ -1,35 +1,55 @@
-// Inicializar os ícones do Lucide
 lucide.createIcons();
 
+const titleInput = document.getElementById('note-title');
 const noteArea = document.getElementById('note-area');
-const saveBtn = document.getElementById('save-btn');
-const clearBtn = document.getElementById('clear-btn');
 
-// Função para Salvar a Nota como arquivo .txt
-saveBtn.onclick = () => {
-    const texto = noteArea.value;
-    if (!texto) {
-        alert("Digite algo antes de salvar!");
-        return;
+// Carregar nota salva ao abrir o app
+window.onload = () => {
+    const salva = localStorage.getItem('nota-atual');
+    if (salva) {
+        const dados = JSON.parse(salva);
+        titleInput.value = dados.titulo || '';
+        noteArea.value = dados.nota || '';
     }
+};
 
-    const blob = new Blob([texto], { type: 'text/plain' });
+// Salvar no Navegador (Auto-save no clique do botão Salvar)
+document.getElementById('save-app-btn').onclick = () => {
+    const dados = { titulo: titleInput.value, nota: noteArea.value };
+    localStorage.setItem('nota-atual', JSON.stringify(dados));
+    alert('Nota salva na memória do app!');
+};
+
+// Baixar TXT
+document.getElementById('download-btn').onclick = () => {
+    const conteudo = titleInput.value ? `${titleInput.value}\n\n${noteArea.value}` : noteArea.value;
+    const blob = new Blob([conteudo], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    
     a.href = url;
-    a.download = 'nota.txt';
-    document.body.appendChild(a);
+    a.download = titleInput.value ? `${titleInput.value}.txt` : 'nota.txt';
     a.click();
-    
-    // Limpeza técnica
-    document.body.removeChild(a);
     URL.revokeObjectURL(url);
 };
 
-// Função para Limpar tudo
-clearBtn.onclick = () => {
-    if (confirm('Tem certeza que deseja limpar tudo?')) {
-        noteArea.value = '';
+// Copiar Texto
+document.getElementById('copy-btn').onclick = async () => {
+    try {
+        await navigator.clipboard.writeText(noteArea.value);
+        const btnText = document.querySelector('.btn-copy span');
+        btnText.innerText = 'Copiado!';
+        setTimeout(() => btnText.innerText = 'Copiar', 2000);
+    } catch (err) {
+        alert('Erro ao copiar');
     }
 };
+
+// Limpar Tudo
+document.getElementById('clear-btn').onclick = () => {
+    if (confirm('Limpar tudo?')) {
+        titleInput.value = '';
+        noteArea.value = '';
+        localStorage.removeItem('nota-atual');
+    }
+};
+
