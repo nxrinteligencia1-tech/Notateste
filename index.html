@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notas Pro</title>
+    <title>Notas Pro v3</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="app-container">
         <header class="header">
             <h1>Notas</h1>
-            <div class="actions">
-                <button id="copy-btn" class="btn-copy"><i data-lucide="copy"></i> <span>Copiar</span></button>
-                <button id="save-app-btn" class="btn-save"><i data-lucide="save"></i> <span>Salvar</span></button>
-                <button id="download-btn" class="btn-download"><i data-lucide="file-down"></i> <span>TXT</span></button>
-                <button id="clear-btn" class="btn-clear"><i data-lucide="trash-2"></i></button>
+            <div class="actions-row">
+                <button id="new-btn" class="btn-yellow"><i data-lucide="file-plus"></i> <span>Nova</span></button>
+                <button id="copy-btn" class="btn-green"><i data-lucide="copy"></i> <span>Copiar</span></button>
+                <button id="save-app-btn" class="btn-blue"><i data-lucide="save"></i> <span>Salvar</span></button>
+            </div>
+            <div class="actions-row mt-2">
+                <button id="download-txt" class="btn-purple"><i data-lucide="file-down"></i> <span>TXT</span></button>
+                <button id="download-doc" class="btn-indigo"><i data-lucide="file-text"></i> <span>DOC</span></button>
+                <button id="download-pdf" class="btn-pink"><i data-lucide="file-down"></i> <span>PDF</span></button>
+                <button id="clear-btn" class="btn-red"><i data-lucide="trash-2"></i></button>
             </div>
         </header>
 
