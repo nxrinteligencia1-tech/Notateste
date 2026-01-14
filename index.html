@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notas Pro v3</title>
+    <title>Gerenciador de Notas Pro</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -11,16 +11,17 @@
 <body>
     <div class="app-container">
         <header class="header">
-            <h1>Notas</h1>
+            <h1>Minhas Notas</h1>
             <div class="actions-row">
                 <button id="new-btn" class="btn-yellow"><i data-lucide="file-plus"></i> <span>Nova</span></button>
+                <button id="show-saved-btn" class="btn-orange"><i data-lucide="book-open"></i> <span id="count-label">Salvas (0)</span></button>
                 <button id="copy-btn" class="btn-green"><i data-lucide="copy"></i> <span>Copiar</span></button>
                 <button id="save-app-btn" class="btn-blue"><i data-lucide="save"></i> <span>Salvar</span></button>
             </div>
             <div class="actions-row mt-2">
-                <button id="download-txt" class="btn-purple"><i data-lucide="file-down"></i> <span>TXT</span></button>
-                <button id="download-doc" class="btn-indigo"><i data-lucide="file-text"></i> <span>DOC</span></button>
-                <button id="download-pdf" class="btn-pink"><i data-lucide="file-down"></i> <span>PDF</span></button>
+                <button id="download-txt" class="btn-purple"><span>TXT</span></button>
+                <button id="download-doc" class="btn-indigo"><span>DOC</span></button>
+                <button id="download-pdf" class="btn-pink"><span>PDF</span></button>
                 <button id="clear-btn" class="btn-red"><i data-lucide="trash-2"></i></button>
             </div>
         </header>
@@ -30,6 +31,18 @@
             <textarea id="note-area" placeholder="Digite suas anotações aqui..."></textarea>
         </div>
     </div>
+
+    <div id="modal-saved" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Notas Salvas</h2>
+                <button id="close-modal"><i data-lucide="x"></i></button>
+            </div>
+            <div id="saved-list" class="saved-list-container">
+                </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
