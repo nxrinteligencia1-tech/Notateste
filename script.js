@@ -1,6 +1,7 @@
 const modal = document.getElementById("modal");
+const openBtn = document.getElementById("openModal");
 
-document.getElementById("openModal").onclick = () => {
+openBtn.onclick = () => {
   modal.classList.remove("hidden");
 };
 

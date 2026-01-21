@@ -12,15 +12,22 @@
 
 <div id="modal" class="modal hidden">
   <div class="modal-box">
-    <h2>Notas Salvas</h2>
-    <button class="close" onclick="closeModal()">✕</button>
 
-    <div class="note" onclick="toggleNote(this)">
-      <div class="note-header">Gpt</div>
-      <div class="note-content">
-        Ajuste[01] Veja na foto que ali tem um corte dentro da imagem...
-        Texto completo da conversa aqui.
+    <div class="modal-header">
+      <h2>Notas Salvas</h2>
+      <button class="close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="note">
+      <div class="note-header" onclick="toggleNote(this.parentElement)">
+        Gpt
       </div>
+
+      <div class="note-content">
+        Ajuste[01] Veja na foto que ali tem um corte dentro da imagem.
+        Aqui entra TODA a conversa completa, sem limite.
+      </div>
+
       <div class="note-actions">
         <button class="edit">Editar</button>
         <button class="copy">Copiar</button>
