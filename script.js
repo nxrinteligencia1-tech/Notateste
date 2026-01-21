@@ -5,9 +5,6 @@ const titleInput = document.getElementById('note-title');
 const noteArea = document.getElementById('note-area');
 const modal = document.getElementById('modal-saved');
 
-let editandoKey = null;
-let notaExpandidaKey = null;
-
 /* ===== TEMA ===== */
 const temaSalvo = localStorage.getItem('tema');
 if (temaSalvo) html.setAttribute('data-theme', temaSalvo);
@@ -28,10 +25,15 @@ const keys = Object.keys(localStorage).filter(k => k.startsWith('nota-'));
 label.innerText = `Salvas (${keys.length})`;
 list.innerHTML = '';
 
+if (!keys.length) {
+list.innerHTML = '<p style="text-align:center;color:#9ca3af">Nenhuma nota salva</p>';
+return;
+}
+
 keys.sort((a,b)=>b.localeCompare(a)).forEach(key=>{
 const n = JSON.parse(localStorage.getItem(key));
 const div = document.createElement('div');
-div.className = 'nota-item';
+div.style.marginBottom = '1rem';
 div.innerHTML = `<strong>${n.titulo}</strong><p>${n.nota}</p>`;
 list.appendChild(div);
 });
@@ -39,7 +41,7 @@ list.appendChild(div);
 
 document.getElementById('save-app-btn').onclick = () => {
 if (!titleInput.value.trim()) return alert('Título obrigatório');
-const id = editandoKey || `nota-${Date.now()}`;
+const id = `nota-${Date.now()}`;
 localStorage.setItem(id, JSON.stringify({
 titulo: titleInput.value,
 nota: noteArea.value,
@@ -52,7 +54,6 @@ carregarLista();
 document.getElementById('new-btn').onclick = () => {
 titleInput.value = '';
 noteArea.value = '';
-editandoKey = null;
 };
 
 document.getElementById('show-saved-btn').onclick = () => {
@@ -60,7 +61,9 @@ modal.style.display = 'flex';
 carregarLista();
 };
 
-document.getElementById('close-modal').onclick = () => modal.style.display = 'none';
+document.getElementById('close-modal').onclick = () => {
+modal.style.display = 'none';
+};
 
 /* ===== COPIAR / COLAR ===== */
 document.getElementById('copy-btn').onclick = async () => {
@@ -95,7 +98,6 @@ document.getElementById('clear-btn').onclick = () => {
 if (confirm('Limpar tudo?')) {
 titleInput.value = '';
 noteArea.value = '';
-editandoKey = null;
 }
 };
 
