@@ -18,39 +18,16 @@ color:var(--text);
 font-family:sans-serif;
 }
 
-.app-container{
-display:flex;
-flex-direction:column;
-min-height:100dvh;
-}
+.app-container{display:flex;flex-direction:column;min-height:100dvh}
 
-.header{
-background:var(--header);
-border-bottom:1px solid var(--border);
-padding:1rem;
-}
+.header{background:var(--header);border-bottom:1px solid var(--border);padding:1rem}
 
 .actions-row{display:flex;gap:.4rem;flex-wrap:wrap}
 .mt-2{margin-top:.5rem}
 
 button{
-border:none;
-border-radius:.5rem;
-padding:.5rem .7rem;
-color:white;
-cursor:pointer;
-display:flex;
-align-items:center;
-gap:.3rem;
-font-size:.75rem;
-font-weight:bold;
-opacity:1;
-pointer-events:auto;
-}
-
-button:disabled{
-opacity:1;
-pointer-events:auto;
+border:none;border-radius:.5rem;padding:.5rem .7rem;
+color:white;cursor:pointer;font-size:.75rem;font-weight:bold;
 }
 
 .btn-yellow{background:var(--yellow)}
@@ -63,43 +40,54 @@ pointer-events:auto;
 .btn-red{background:var(--red)}
 .btn-gray{background:#6b7280}
 
-.editor-container{
-flex:1;
-display:flex;
-flex-direction:column;
-}
+.editor-container{flex:1;display:flex;flex-direction:column}
 
-#note-title{
-padding:1rem;
-background:var(--header);
-border:none;
-color:var(--text);
-font-size:1.1rem;
-}
-
-#note-area{
-flex:1;
-padding:1rem;
-background:transparent;
-border:none;
-color:var(--text);
-resize:none;
-overflow-y:auto;
-}
+#note-title{padding:1rem;background:var(--header);border:none;color:var(--text)}
+#note-area{flex:1;padding:1rem;background:transparent;border:none;color:var(--text);resize:none}
 
 .modal-overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.8);
-display:none;
-justify-content:center;
-align-items:center;
+position:fixed;inset:0;background:rgba(0,0,0,.8);
+display:none;align-items:center;justify-content:center;
 }
 
 .modal-content{
 background:var(--header);
-width:90%;
-max-width:600px;
-padding:1rem;
+width:90%;max-width:600px;
 border-radius:1rem;
+padding:1rem;
+max-height:85vh;
+overflow:auto;
 }
+
+.nota-item{
+background:#374151;
+border-radius:.5rem;
+margin-bottom:.75rem;
+overflow:hidden;
+}
+
+.nota-resumo{
+padding:1rem;
+cursor:pointer;
+}
+
+.nota-resumo h3{margin:0}
+.nota-resumo p{
+margin:.25rem 0 0;
+color:#9ca3af;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.nota-detalhe{
+background:#111827;
+padding:1rem;
+}
+
+.nota-texto{
+white-space:pre-wrap;
+margin-bottom:1rem;
+}
+
+.nota-acoes{display:flex;gap:.5rem;flex-wrap:wrap}
