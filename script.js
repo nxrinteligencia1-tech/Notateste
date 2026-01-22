@@ -1,3 +1,4 @@
+// script.js
 const modal = document.getElementById("modal");
 const openBtn = document.getElementById("openModal");
 const closeBtn = document.getElementById("closeModal");
@@ -6,6 +7,10 @@ const notesList = document.getElementById("notesList");
 const newNote = document.getElementById("newNote");
 
 let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  document.body.classList.add("dark");
+}
 
 openBtn.onclick = () => modal.classList.remove("hidden");
 closeBtn.onclick = () => modal.classList.add("hidden");
@@ -21,8 +26,11 @@ function renderNotes() {
     const note = document.createElement("div");
     note.className = "note";
 
+    const preview = text.split("\n")[0].slice(0, 80);
+
     note.innerHTML = `
-      <div class="note-header">Gpt</div>
+      <div class="note-header">Nota</div>
+      <div class="note-preview">${preview}...</div>
       <div class="note-content">${text}</div>
       <div class="note-actions">
         <button class="edit">Editar</button>
@@ -31,7 +39,8 @@ function renderNotes() {
       </div>
     `;
 
-    note.querySelector(".note-header").onclick = () => {
+    note.onclick = e => {
+      if (e.target.tagName === "BUTTON") return;
       note.classList.toggle("open");
     };
 
@@ -59,7 +68,7 @@ function renderNotes() {
 }
 
 addBtn.onclick = () => {
-  if (newNote.value.trim() === "") return;
+  if (!newNote.value.trim()) return;
   notes.unshift(newNote.value);
   newNote.value = "";
   saveNotes();
