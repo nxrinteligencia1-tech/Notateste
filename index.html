@@ -2,14 +2,25 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Notas</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<button id="openModal">Notas Salvas</button>
+<h1>Notas</h1>
+
+<div class="actions">
+  <button id="toggleTheme">Tema</button>
+  <button id="openModal">Salvas</button>
+</div>
+
+<textarea id="newNote" placeholder="Digite a nota completa aqui..."></textarea>
+
+<div class="actions">
+  <button id="addNote">Salvar</button>
+</div>
 
 <div id="modal" class="modal hidden">
   <div class="modal-box">
@@ -17,10 +28,6 @@
       <h2>Notas Salvas</h2>
       <button id="closeModal">✕</button>
     </div>
-
-    <textarea id="newNote" placeholder="Digite a conversa completa aqui..."></textarea>
-    <button id="addNote">Salvar Nota</button>
-
     <div id="notesList"></div>
   </div>
 </div>
