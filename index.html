@@ -3,29 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notas</title>
+  <title>PDFToDoDia</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
-<button id="openModal">Notas Salvas</button>
+<body class="dark">
+  <header class="header">
+    <h1>📄 PDFToDoDia</h1>
+    <p>Leitor simples de PDF</p>
+  </header>
 
-<div id="modal" class="modal hidden">
-  <div class="modal-box">
+  <main class="container">
+    <input type="file" id="fileInput" accept="application/pdf">
+    <button id="selectPdfBtn" class="btn btn-primary">Selecionar PDF</button>
 
-    <div class="modal-header">
-      <h2>Notas Salvas</h2>
-      <button class="close" id="closeModal">✕</button>
+    <div id="fileInfo" class="file-info hidden">
+      <strong>Arquivo:</strong> <span id="fileName"></span>
     </div>
 
-    <textarea id="newNote" placeholder="Digite a conversa completa aqui..."></textarea>
-    <button id="addNote">Salvar Nota</button>
+    <iframe id="pdfViewer" class="pdf-viewer hidden"></iframe>
+  </main>
 
-    <div id="notesList"></div>
-
-  </div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
