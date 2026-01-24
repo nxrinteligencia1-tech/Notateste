@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<button id="openModal">Notas Salvas</button>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2>Notas Salvas</h2>
+      <button class="close" id="closeModal">✕</button>
+    </div>
+
+    <textarea id="newNote" placeholder="Digite a conversa completa aqui..."></textarea>
+    <button id="addNote">Salvar Nota</button>
+
+    <div id="notesList"></div>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
