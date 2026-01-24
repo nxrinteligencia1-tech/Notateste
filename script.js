@@ -1,25 +1,14 @@
-// script.js
-const body = document.body;
-const toggleTheme = document.getElementById("toggleTheme");
 const modal = document.getElementById("modal");
-const openModal = document.getElementById("openModal");
-const closeModal = document.getElementById("closeModal");
-const addNote = document.getElementById("addNote");
-const newNote = document.getElementById("newNote");
+const openBtn = document.getElementById("openModal");
+const closeBtn = document.getElementById("closeModal");
+const addBtn = document.getElementById("addNote");
 const notesList = document.getElementById("notesList");
+const newNote = document.getElementById("newNote");
 
 let notes = JSON.parse(localStorage.getItem("notes")) || [];
-let theme = localStorage.getItem("theme") || "light";
 
-if (theme === "dark") body.classList.add("dark");
-
-toggleTheme.onclick = () => {
-  body.classList.toggle("dark");
-  localStorage.setItem("theme", body.classList.contains("dark") ? "dark" : "light");
-};
-
-openModal.onclick = () => modal.classList.remove("hidden");
-closeModal.onclick = () => modal.classList.add("hidden");
+openBtn.onclick = () => modal.classList.remove("hidden");
+closeBtn.onclick = () => modal.classList.add("hidden");
 
 function saveNotes() {
   localStorage.setItem("notes", JSON.stringify(notes));
@@ -32,11 +21,8 @@ function renderNotes() {
     const note = document.createElement("div");
     note.className = "note";
 
-    const preview = text.split("\n")[0].slice(0, 90);
-
     note.innerHTML = `
-      <div class="note-header">Nota</div>
-      <div class="note-preview">${preview}...</div>
+      <div class="note-header">Gpt</div>
       <div class="note-content">${text}</div>
       <div class="note-actions">
         <button class="edit">Editar</button>
@@ -45,8 +31,7 @@ function renderNotes() {
       </div>
     `;
 
-    note.onclick = e => {
-      if (e.target.tagName === "BUTTON") return;
+    note.querySelector(".note-header").onclick = () => {
       note.classList.toggle("open");
     };
 
@@ -73,8 +58,8 @@ function renderNotes() {
   });
 }
 
-addNote.onclick = () => {
-  if (!newNote.value.trim()) return;
+addBtn.onclick = () => {
+  if (newNote.value.trim() === "") return;
   notes.unshift(newNote.value);
   newNote.value = "";
   saveNotes();
