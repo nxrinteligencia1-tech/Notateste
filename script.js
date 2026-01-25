@@ -13,6 +13,11 @@ function salvarLocal() {
   localStorage.setItem('notas', JSON.stringify(notas));
 }
 
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
 function render() {
   document.body.className = tema;
 
@@ -23,11 +28,15 @@ function render() {
       <button class="btn-nova" onclick="tela='nova';render()">Nova</button>
       <button class="btn-salvas" onclick="tela='salvas';render()">Salvas (${notas.length})</button>
       <button class="btn-copiar" onclick="copiar()">Copiar</button>
+      <button class="btn-colar" onclick="colar()">Colar</button>
       <button onclick="tema = tema==='dark'?'light':'dark';render()">Tema</button>
     </div>
 
     ${tela==='nova' ? novaNota() : listaNotas()}
   `;
+
+  const ta = document.querySelector('textarea');
+  if (ta) autoResize(ta);
 }
 
 function novaNota() {
@@ -45,7 +54,7 @@ function novaNota() {
       oninput="notaAtual.titulo=this.value">
 
     <textarea placeholder="Conteúdo"
-      oninput="notaAtual.conteudo=this.value">${notaAtual.conteudo}</textarea>
+      oninput="notaAtual.conteudo=this.value;autoResize(this)">${notaAtual.conteudo}</textarea>
   `;
 }
 
@@ -54,13 +63,13 @@ function listaNotas() {
 
   return notas.map((n,i)=>`
     <div class="card">
-      <div class="card-title" onclick="toggle(${i})">${n.titulo}</div>
+      <div onclick="toggle(${i})"><strong>${n.titulo}</strong></div>
       <small>${n.data}</small>
 
       ${expandida===i ? `
         <div class="card-content">
           ${editando===i ? `
-            <textarea oninput="notas[${i}].conteudo=this.value">${n.conteudo}</textarea>
+            <textarea oninput="notas[${i}].conteudo=this.value;autoResize(this)">${n.conteudo}</textarea>
             <button class="btn-salvar" onclick="salvarEdicao(${i})">Salvar</button>
           ` : `
             ${n.conteudo}
@@ -120,35 +129,31 @@ function copiar() {
   alert('Copiado');
 }
 
-/* EXPORTAÇÕES */
-function baixarTXT() {
-  downloadArquivo('txt', textoNota());
+async function colar() {
+  try {
+    const texto = await navigator.clipboard.readText();
+    notaAtual.conteudo += texto;
+    render();
+  } catch {
+    alert('Permissão negada');
+  }
 }
 
-function baixarDOC() {
-  downloadArquivo('doc', textoNota());
-}
+/* EXPORTAÇÕES */
+function baixarTXT() { downloadArquivo('txt'); }
+function baixarDOC() { downloadArquivo('doc'); }
 
 function baixarPDF() {
   if (!notaAtual.titulo) return alert('Crie a nota');
   const pdf = new jsPDF();
-  pdf.setFontSize(16);
   pdf.text(notaAtual.titulo, 10, 15);
-  pdf.setFontSize(12);
-  pdf.text(notaAtual.conteudo, 10, 30);
+  pdf.text(notaAtual.conteudo, 10, 30, { maxWidth: 180 });
   pdf.save(`${notaAtual.titulo}.pdf`);
 }
 
-function textoNota() {
-  if (!notaAtual.titulo) {
-    alert('Crie a nota');
-    return '';
-  }
-  return `${notaAtual.titulo}\n\n${notaAtual.conteudo}`;
-}
-
-function downloadArquivo(ext, texto) {
-  if (!texto) return;
+function downloadArquivo(ext) {
+  if (!notaAtual.titulo) return alert('Crie a nota');
+  const texto = `${notaAtual.titulo}\n\n${notaAtual.conteudo}`;
   const blob = new Blob([texto], { type:'text/plain' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);

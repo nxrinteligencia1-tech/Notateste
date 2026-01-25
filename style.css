@@ -18,10 +18,7 @@ body.light {
   padding: 20px;
 }
 
-h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
+h1 { font-size: 36px; }
 
 .buttons {
   display: flex;
@@ -43,6 +40,7 @@ button {
 .btn-nova { background:#f59e0b; }
 .btn-salvas { background:#f97316; }
 .btn-copiar { background:#22c55e; }
+.btn-colar { background:#14b8a6; }
 .btn-salvar { background:#3b82f6; }
 .btn-editar { background:#6366f1; }
 .btn-del { background:#ef4444; }
@@ -67,24 +65,24 @@ body.light textarea {
   color: #000;
 }
 
+textarea {
+  resize: none;
+  overflow: hidden;
+}
+
 .card {
   background: #020617;
   border: 1px solid #334155;
   border-radius: 12px;
   padding: 14px;
   margin-bottom: 12px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
-body.light .card {
-  background: #fff;
-}
-
-.card-title {
-  cursor: pointer;
-  font-weight: bold;
-}
+body.light .card { background: #fff; }
 
 .card-content {
-  margin-top: 10px;
   white-space: pre-wrap;
+  word-break: break-word;
 }
