@@ -1,49 +1,90 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
+  background: #0f172a;
+  color: #fff;
+}
+
+body.light {
+  background: #f8fafc;
+  color: #000;
 }
 
 #app {
-  min-height: 100vh;
+  max-width: 900px;
+  margin: auto;
   padding: 20px;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 button {
   border: none;
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-weight: 600;
+  border-radius: 14px;
+  padding: 14px 22px;
+  font-weight: 700;
+  font-size: 15px;
   cursor: pointer;
+  color: #fff;
 }
+
+.btn-nova { background:#f59e0b; }
+.btn-salvas { background:#f97316; }
+.btn-copiar { background:#22c55e; }
+.btn-salvar { background:#3b82f6; }
+.btn-editar { background:#6366f1; }
+.btn-del { background:#ef4444; }
+.btn-txt { background:#a855f7; }
+.btn-doc { background:#6366f1; }
+.btn-pdf { background:#ec4899; }
 
 input, textarea {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 2px solid #64748b;
-  font-family: inherit;
+  background: #020617;
+  color: #fff;
+  border: 2px solid #334155;
+  border-radius: 10px;
+  padding: 12px;
   font-size: 16px;
-  margin-bottom: 10px;
-}
-
-textarea {
-  min-height: 300px;
-  resize: vertical;
-}
-
-.card {
-  padding: 14px;
-  border-radius: 8px;
   margin-bottom: 12px;
 }
 
-.actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
+body.light input,
+body.light textarea {
+  background: #fff;
+  color: #000;
+}
+
+.card {
+  background: #020617;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+body.light .card {
+  background: #fff;
+}
+
+.card-title {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.card-content {
+  margin-top: 10px;
+  white-space: pre-wrap;
 }

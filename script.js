@@ -1,7 +1,11 @@
-let tema = 'escuro';
+const { jsPDF } = window.jspdf;
+
 let tela = 'nova';
+let tema = 'dark';
 let notas = JSON.parse(localStorage.getItem('notas')) || [];
-let notaAtual = { titulo: '', conteudo: '' };
+let notaAtual = { titulo:'', conteudo:'' };
+let expandida = null;
+let editando = null;
 
 const app = document.getElementById('app');
 
@@ -9,35 +13,32 @@ function salvarLocal() {
   localStorage.setItem('notas', JSON.stringify(notas));
 }
 
-function cores() {
-  return tema === 'escuro'
-    ? { bg:'#1e293b', card:'#334155', texto:'#fff', btn:'#3b82f6' }
-    : { bg:'#f8fafc', card:'#fff', texto:'#000', btn:'#2563eb' };
-}
-
 function render() {
-  const c = cores();
-  app.style.background = c.bg;
-  app.style.color = c.texto;
+  document.body.className = tema;
 
   app.innerHTML = `
     <h1>Notas</h1>
 
-    <div class="actions">
-      <button onclick="trocarTema()">Tema</button>
-      <button onclick="tela='nova';render()">Nova</button>
-      <button onclick="tela='salvas';render()">Salvas (${notas.length})</button>
-      <button onclick="copiar()">Copiar</button>
-      <button onclick="colar()">Colar</button>
+    <div class="buttons">
+      <button class="btn-nova" onclick="tela='nova';render()">Nova</button>
+      <button class="btn-salvas" onclick="tela='salvas';render()">Salvas (${notas.length})</button>
+      <button class="btn-copiar" onclick="copiar()">Copiar</button>
+      <button onclick="tema = tema==='dark'?'light':'dark';render()">Tema</button>
     </div>
 
-    ${tela === 'nova' ? novaNota(c) : listaNotas(c)}
+    ${tela==='nova' ? novaNota() : listaNotas()}
   `;
 }
 
-function novaNota(c) {
+function novaNota() {
   return `
-    <button onclick="salvarNota()">Salvar</button>
+    <button class="btn-salvar" onclick="salvarNota()">Salvar</button>
+
+    <div class="buttons">
+      <button class="btn-txt" onclick="baixarTXT()">TXT</button>
+      <button class="btn-doc" onclick="baixarDOC()">DOC</button>
+      <button class="btn-pdf" onclick="baixarPDF()">PDF</button>
+    </div>
 
     <input placeholder="Título"
       value="${notaAtual.titulo}"
@@ -45,34 +46,37 @@ function novaNota(c) {
 
     <textarea placeholder="Conteúdo"
       oninput="notaAtual.conteudo=this.value">${notaAtual.conteudo}</textarea>
-
-    <div class="actions">
-      <button onclick="baixar('txt')">TXT</button>
-      <button onclick="baixar('doc')">DOC</button>
-      <button onclick="baixar('pdf')">PDF</button>
-    </div>
   `;
 }
 
-function listaNotas(c) {
+function listaNotas() {
   if (!notas.length) return '<p>Nenhuma nota salva</p>';
 
   return notas.map((n,i)=>`
-    <div class="card" style="background:${c.card}">
-      <strong>${n.titulo}</strong><br>
+    <div class="card">
+      <div class="card-title" onclick="toggle(${i})">${n.titulo}</div>
       <small>${n.data}</small>
-      <pre>${n.conteudo}</pre>
-      <button onclick="editar(${i})">Editar</button>
-      <button onclick="deletar(${i})">Apagar</button>
+
+      ${expandida===i ? `
+        <div class="card-content">
+          ${editando===i ? `
+            <textarea oninput="notas[${i}].conteudo=this.value">${n.conteudo}</textarea>
+            <button class="btn-salvar" onclick="salvarEdicao(${i})">Salvar</button>
+          ` : `
+            ${n.conteudo}
+            <div class="buttons">
+              <button class="btn-editar" onclick="editar(${i})">Editar</button>
+              <button class="btn-del" onclick="deletar(${i})">Excluir</button>
+            </div>
+          `}
+        </div>
+      ` : ''}
     </div>
   `).join('');
 }
 
 function salvarNota() {
-  if (!notaAtual.titulo.trim()) {
-    alert('Título obrigatório');
-    return;
-  }
+  if (!notaAtual.titulo.trim()) return alert('Título obrigatório');
 
   notas.unshift({
     id: Date.now(),
@@ -87,23 +91,27 @@ function salvarNota() {
 }
 
 function editar(i) {
-  notaAtual = { titulo: notas[i].titulo, conteudo: notas[i].conteudo };
-  notas.splice(i,1);
+  editando = i;
+  render();
+}
+
+function salvarEdicao(i) {
   salvarLocal();
-  tela = 'nova';
+  editando = null;
   render();
 }
 
 function deletar(i) {
-  if (confirm('Deletar nota?')) {
+  if (confirm('Excluir nota?')) {
     notas.splice(i,1);
     salvarLocal();
     render();
   }
 }
 
-function trocarTema() {
-  tema = tema === 'escuro' ? 'claro' : 'escuro';
+function toggle(i) {
+  expandida = expandida === i ? null : i;
+  editando = null;
   render();
 }
 
@@ -112,28 +120,40 @@ function copiar() {
   alert('Copiado');
 }
 
-async function colar() {
-  try {
-    const t = await navigator.clipboard.readText();
-    notaAtual.conteudo += t;
-    render();
-  } catch {
-    alert('Permissão negada');
-  }
+/* EXPORTAÇÕES */
+function baixarTXT() {
+  downloadArquivo('txt', textoNota());
 }
 
-function baixar(ext) {
+function baixarDOC() {
+  downloadArquivo('doc', textoNota());
+}
+
+function baixarPDF() {
+  if (!notaAtual.titulo) return alert('Crie a nota');
+  const pdf = new jsPDF();
+  pdf.setFontSize(16);
+  pdf.text(notaAtual.titulo, 10, 15);
+  pdf.setFontSize(12);
+  pdf.text(notaAtual.conteudo, 10, 30);
+  pdf.save(`${notaAtual.titulo}.pdf`);
+}
+
+function textoNota() {
   if (!notaAtual.titulo) {
-    alert('Crie uma nota');
-    return;
+    alert('Crie a nota');
+    return '';
   }
-  const texto = `${notaAtual.titulo}\n\n${notaAtual.conteudo}`;
+  return `${notaAtual.titulo}\n\n${notaAtual.conteudo}`;
+}
+
+function downloadArquivo(ext, texto) {
+  if (!texto) return;
   const blob = new Blob([texto], { type:'text/plain' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `${notaAtual.titulo}.${ext}`;
   a.click();
-  URL.revokeObjectURL(a.href);
 }
 
 render();
